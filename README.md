@@ -1,0 +1,1 @@
+# jAmaDochv1.0
