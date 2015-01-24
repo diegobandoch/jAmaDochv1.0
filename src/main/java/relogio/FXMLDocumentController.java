@@ -1,6 +1,6 @@
 package relogio;
 
-import Utils.OperacoesDatas;
+import utils.OperacoesDatas;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -44,10 +44,13 @@ import relogio.entity.Enumerations;
 import relogio.entity.Issues;
 import relogio.repo.EnumerationsJpaController;
 import relogio.repo.IssuesJpaController;
+import service.ArquivoXMLService;
 
 public class FXMLDocumentController implements Initializable {
 
     private final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+    private final ArquivoXMLService arquivoXMLService = new ArquivoXMLService();
+    
     @FXML
     private ListView listView;
     @FXML
@@ -113,10 +116,13 @@ public class FXMLDocumentController implements Initializable {
     private void handleLogarAction(ActionEvent event) {
 
         try {
-            List<Atividade> atividades = getAtividades().getAtividade();
+            
+            String caminhoArquivo = "c:/install/horas" + tfData.getText().replace("/", "") + ".xml";
+            List<Atividade> atividades = arquivoXMLService.getAtividades(caminhoArquivo).getAtividade();
 
             for (Atividade atividade2 : atividades) {
                 if (!atividade2.isLogado() && atividade2.getPeriodo().getPeriodoTrabalhadoFracionado().compareTo(BigDecimal.ZERO) > 0) {
+                    taErro.setText("");
                     if (atividade2.getPeriodo().getPeriodoTrabalhadoFracionado().compareTo(new BigDecimal(8)) > 0) {
                         taErro.setText("Ticket " + atividade2.getTicket() + " logada com mais de 8 horas. Favor validar.");
                     }
@@ -174,7 +180,10 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void handleStopAction(ActionEvent event) {
         tfData.setText(sdf.format(new Date()));
-        Atividades atividades = getAtividades();
+        
+        String caminhoArquivo = "c:/install/horas" + tfData.getText().replace("/", "") + ".xml";
+        Atividades atividades = arquivoXMLService.getAtividades(caminhoArquivo);
+            
         Atividade atividade2 = atividades.getAtividade().get(atividades.getAtividade().size() - 1);
         Periodo periodo = atividade2.getPeriodo();
         periodo.setFim(new Date());
@@ -206,7 +215,9 @@ public class FXMLDocumentController implements Initializable {
         tfData.setText(sdf.format(new Date()));
         taErro.setEditable(false);
 
-        Atividades atividades = getAtividades();
+        String caminhoArquivo = "c:/install/horas" + tfData.getText().replace("/", "") + ".xml";
+        Atividades atividades = arquivoXMLService.getAtividades(caminhoArquivo);
+        
         if (atividades.getAtividade().isEmpty()) {
             atividade = new Atividade();
         } else {
@@ -225,7 +236,9 @@ public class FXMLDocumentController implements Initializable {
     }
 
     private void gravaArquivo(Atividade atividade) {
-        Atividades atividades = getAtividades();
+        String caminhoArquivo = "c:/install/horas" + tfData.getText().replace("/", "") + ".xml";
+        Atividades atividades = arquivoXMLService.getAtividades(caminhoArquivo);
+        
         atividades.add(atividade);
         gravaArquivo(atividades);
 
@@ -246,22 +259,11 @@ public class FXMLDocumentController implements Initializable {
 
     }
 
-    private Atividades getAtividades() {
-        try {
-            JAXBContext context = JAXBContext.newInstance(Atividades.class
-            );
-            Unmarshaller unmarshaller = context.createUnmarshaller();
-            return (Atividades) unmarshaller.unmarshal(
-                    new File("c:/install/horas" + tfData.getText().replace("/", "") + ".xml"));
-        } catch (JAXBException ex) {
-            Logger.getLogger(FXMLDocumentController.class
-                    .getName()).log(Level.SEVERE, null, ex);
-        }
-        return new Atividades();
-    }
-
     private ObservableList<Atividade> lerArquivo() {
-        List<Atividade> atividades = getAtividades().getAtividade();
+        
+        String caminhoArquivo = "c:/install/horas" + tfData.getText().replace("/", "") + ".xml";
+        List<Atividade> atividades = arquivoXMLService.getAtividades(caminhoArquivo).getAtividade();        
+        
         if (!atividades.isEmpty()) {
             startButton.setDisable(atividade.isAberto());
             stopButton.setDisable(!atividade.isAberto());
