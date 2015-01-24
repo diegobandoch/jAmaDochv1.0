@@ -1,0 +1,6 @@
+#taErro {
+  -fx-highlight-text-fill: red;
+  -fx-text-fill: tomato;
+  -fx-text-alignment: center;
+  -fx-font: bold 16px Tahoma;
+}

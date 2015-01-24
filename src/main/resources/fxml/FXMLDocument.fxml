@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="430.0" prefWidth="654.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="relogio.FXMLDocumentController">
+    <children>        
+        <TextField fx:id="tfKey" layoutX="13.0" layoutY="14.0" prefHeight="22.0" prefWidth="323.0" />
+        <Button layoutX="346.0" layoutY="14.0" mnemonicParsing="false" prefHeight="22.0" prefWidth="95.0" text="Atualizar chave" onAction="#handleAtualizarKeyAction"  />
+        <TextField fx:id="tfData" layoutX="448.0" layoutY="14.0" promptText="dd/mm/aaaa" />
+        <Button fx:id="findButton" layoutX="592.0" layoutY="14.0" onAction="#handleFindAction" text="Buscar" />
+        <TextArea fx:id="taErro" layoutX="13.0" layoutY="48.0" prefHeight="30.0" prefWidth="464.0" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="48.0" />
+        <ListView fx:id="listView" layoutX="14.0" layoutY="87.0" prefHeight="295.0" prefWidth="570.0" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="87.0" />
+        <Pane layoutX="12.0" layoutY="392.0" prefHeight="22.0" prefWidth="465.0" AnchorPane.bottomAnchor="13.0" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="13.0">
+            <children>
+                <TextField fx:id="tfTicket" maxWidth="66.0" minWidth="10" prefHeight="22.0" prefWidth="66.0" promptText="Ticket" />
+                <ComboBox fx:id="cbAtividade" layoutX="70.0" prefHeight="22.0" prefWidth="171.0" />
+                <Button fx:id="startButton" layoutX="247.0" onAction="#handleStartAction" text="Start" />
+                <Button fx:id="stopButton" layoutX="294.0" onAction="#handleStopAction" text="Stop" />
+                <Button fx:id="logar" layoutX="539.0" onAction="#handleLogarAction" text="Logar RedMine" />
+            </children>
+        </Pane>
+    </children>
+</AnchorPane>
