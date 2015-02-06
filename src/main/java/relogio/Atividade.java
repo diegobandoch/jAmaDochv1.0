@@ -80,7 +80,7 @@ public class Atividade {
     }
 
     public boolean isAberto() {
-        return getPeriodo().getFim() == null;
+        return getPeriodo()!=null && getPeriodo().getFim() == null;
     }
 
     public String getAsXML() {
